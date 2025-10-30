@@ -3,11 +3,11 @@
 
 
 import sys
+import soundfile as sf
 
 # python3 main.py /path/to/music.flac
 if len(sys.argv) < 2:
     print("Usage: python3 main.py </path/to/music.flac>")
     sys.exit(1)
 
-arg = sys.argv[1]
-print("Argument:", arg)
+orgFilePath = sys.argv[1]
