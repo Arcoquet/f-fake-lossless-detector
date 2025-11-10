@@ -20,8 +20,6 @@ def getMaxFrequency(filepath: str) -> float:
     peak_index = np.argmax(fft_samples)  # get indices of the largest amplitude
     max_frequency = peak_index / (len(leftChannel)) * samplerate
 
-    print(
-        f"""Maximum Frequency: {str(max_frequency)} Hz"""
-    )
+    print(f"""Maximum frequency: {str(max_frequency)} Hz""")
 
-    return 0.0
+    return max_frequency
