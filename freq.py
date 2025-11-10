@@ -23,3 +23,7 @@ def getMaxFrequency(filepath: str) -> float:
     print(f"""Maximum frequency: {str(max_frequency)} Hz""")
 
     return max_frequency
+
+
+# python max frequency of a sound
+# https://stackoverflow.com/questions/75286292/get-maximum-of-spectrum-from-audio-file-with-python-audacity-like
