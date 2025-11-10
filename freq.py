@@ -14,7 +14,8 @@ def getMaxFrequency(filepath: str) -> float:
     import numpy as np
 
     sample_rate, samples = wavfile.read('/Users/vallevert/Desktop/lossy-detector/test/03 Barbie Girl.wav')
-    fft_samples = np.abs(np.fft.fft(samples))
+    fft_samples = np.abs(np.fft.fft(rightChannel))
+    # print(fft_samples.shape)
 
     peak_index = np.argmax(fft_samples)  # get indices of the largest amplitude
     max_frequency = peak_index / (len(samples)) * sample_rate
@@ -28,7 +29,7 @@ def getMaxFrequency(filepath: str) -> float:
         {str(max_frequency)} Hz
 
         Frequency Value:
-        {fft_samples[peak_index]} 
+        {fft_samples[peak_index]}
 
         Frequency Value once again (should be the same if our calculations were right):
         {np.max(fft_samples)}
