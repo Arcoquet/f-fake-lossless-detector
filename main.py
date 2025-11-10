@@ -12,7 +12,7 @@ if len(sys.argv) < 2:
 
 orgFilePath = sys.argv[1]
 
-# if freq max =16kHz = sus because mp3 max is near
+# if freq max=16kHz = sus because mp3 max is near
 # if freq is 96 but max freq is 21khz, sus
 # convert to mp3, acc, and so on and check if same file
-# diff % beween input and mp3 convert file
+# diff % between input and mp3 convert file
