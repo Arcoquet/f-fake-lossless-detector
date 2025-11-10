@@ -1,20 +1,19 @@
 # python 3.12 only
 # code in english only
+# UNIX based file system only
 
 
 import sys
 import soundfile as sf
-import librosa
 import numpy as np
 
-# python3 main.py /path/to/music.flac
 if len(sys.argv) < 2:
     print("Usage: python3 main.py </path/to/music.flac>")
     sys.exit(1)
 
-orgFilePath = sys.argv[1]
-data, samplerate = sf.read(orgFilePath)
-# print(data[samplerate*60])
+orgFile_Path = sys.argv[1]
+orgFile_SF, samplerate = sf.read(orgFile_Path)
+# print(data[samplerate*60]) = 60s'sample
 
 
 # if freq max=16kHz = sus because mp3 max is near
