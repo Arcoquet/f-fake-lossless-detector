@@ -16,3 +16,5 @@ orgFilePath = sys.argv[1]
 # if freq is 96 but max freq is 21khz, sus
 # convert to mp3, acc, and so on and check if same file
 # diff % between input and mp3 convert file
+
+# return a score of probably fake lossless
