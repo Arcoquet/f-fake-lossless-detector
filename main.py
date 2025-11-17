@@ -28,6 +28,7 @@ print(f"Maximum frequency found: {maxFrequency * 0.001:.1f} kHz")
 if (maxFrequency < 20050.0):
     print(f"\t{Fore.RED}The maximum frequency is too low to be lossless{Style.RESET_ALL}")
 
+
 # if freq is 96 but max freq is 21khz, sus
 
 # convert to mp3, acc, and so on and check if same file
