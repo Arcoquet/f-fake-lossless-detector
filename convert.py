@@ -13,14 +13,15 @@ lossy_format = {
 
 def convert(filepath: str):
     # filepath = /user/truc/desktop/ma musique de fou.mp3
-    fname, _ = os.path.splitext(filepath)
+    split_path, _ = os.path.splitext(filepath)
+    get_fname = split_path.split("/")[1]
 
     # Tour of extensions and codecs
     for ext, codec in lossy_format.items():
-        output_path = os.path.join("processing", f"{fname}.{ext}")
+        output_path = os.path.join("processing", f"{get_fname}.{ext}")
         (
             ffmpeg.input(filepath).output(output_path, acodec=codec, vn=None).run()
         )
 
 
-convert("test/01 Bitch Lasagna.flac")
+# convert("test/01 Bitch Lasagna.flac")
