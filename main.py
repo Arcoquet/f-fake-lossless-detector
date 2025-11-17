@@ -10,7 +10,7 @@ from colorama import Fore
 from colorama import Style
 from pprint import pprint
 
-from container import containerInfo, containerInfoSampleRate
+from container import *
 from freq import *
 from convert import *
 
