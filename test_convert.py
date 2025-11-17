@@ -1,12 +1,26 @@
 import os
 import ffmpeg
 
-def convert(filename, output_name):
-    # Construire le chemin complet du fichier de sortie
-    input_pat = os.path.join("test", filename)
-    output_path = os.path.join("convert", output_name)
+# List of lossy compression formats supported by ffmpeg
+lossy_format = {
+    "ac3":  "ac3",
+    "mp3":  "libmp3lame",
+    "opus": "libopus",
+    "wma":  "wmav2",
+    "aac":  "aac",
+    "m4a":  "aac"
+}
 
-    # Conversion du fichier avec ffmpeg
-    ffmpeg.input(input_pat).output(output_path).run()
+def convert(filename):
+    fname, _ = os.path.splitext(filename)
+    input_path = os.path.join("test", filename)
 
-convert("extrait-aristochat-devenir-un-cat.wav", "cat.mp3")
+    # Tour of extensions and codecs
+    for ext, codec in lossy_format.items():
+
+        output_path = os.path.join("processing", f"{fname}.{ext}")
+        (
+            ffmpeg.input(input_path).output(output_path, acodec=codec, vn=None).run()
+        )
+
+# convert("01 Bitch Lasagna.flac")
