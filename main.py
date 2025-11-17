@@ -43,5 +43,6 @@ if ((np.array(orgAudioData)).max() > 1.00):
 
 print(f"Red flag number: {Fore.RED}{red_flag_nb}{Style.RESET_ALL}")
 
+# reprendre lecture p114
 # diff % between input and mp3 convert file
 # calculate information on file, Entropy_flac > Entropy_mp3
