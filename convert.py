@@ -14,9 +14,9 @@ lossy_format = {
 def convert(filepath: str):
     # filepath = /user/truc/desktop/ma musique. de fou.mp3
     list_path = filepath.split("/")
-    get_fname = str("".join(list_path[-1].split(".")[:-1]))
+    get_fname = str("".join(list_path[-1]))[::-1].split(".", 1)[1]
+    get_fname = get_fname[::-1]
     print(get_fname)
-    # bonjour.truc.flac
 
     # Tour of extensions and codecs
     for ext, codec in lossy_format.items():
@@ -26,5 +26,6 @@ def convert(filepath: str):
             ffmpeg.input(filepath).output(output_path, acodec=codec, vn=None).run()
         )
 
-# convert("test/01 Bohemian Rhapsody (Remastered 2011).flac")
+
+convert("test/ext.rait-arist.ochat-devenir-un-cat.wav")
 # convert("/Users/vallevert/Desktop/fake-lossless-detector/test/01 Bitch. Lasagna.flac")
