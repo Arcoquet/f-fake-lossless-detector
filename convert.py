@@ -14,24 +14,15 @@ lossy_format = {
 def convert(filepath: str):
     # filepath = /user/truc/desktop/ma musique de fou.mp3
     list_path = filepath.split("/")
-    file_name = list_path[-1]
-    extension_file = file_name.split(".")[-1]
-    out_folder = "./processing/file_name + EXT"
+    get_fname = list_path[-1].split(".")[-2]
 
-    print(list_path)
-    print(file_name)
-    print(extension_file)
-
-    # split_path, _ = os.path.splitext(filepath)
-    # get_fname = split_path.split("/")[-1]
-    #
-    # # Tour of extensions and codecs
-    # for ext, codec in lossy_format.items():
-    #     output_path = os.path.join("processing", f"{get_fname}.{ext}")
-    #     (
-    #         ffmpeg.input(filepath).output(output_path, acodec=codec, vn=None).run()
-    #     )
+    # Tour of extensions and codecs
+    for ext, codec in lossy_format.items():
+        output_path = os.path.join("processing", f"{get_fname}.{ext}")
+        (
+            ffmpeg.input(filepath).output(output_path, acodec=codec, vn=None).run()
+        )
 
 
-convert("test/01 Bitch Lasagna.flac")
+convert("test/01 Bohemian Rhapsody (Remastered 2011).flac")
 # convert("/Users/vallevert/Desktop/fake-lossless-detector/test/01 Bitch Lasagna.flac")
