@@ -19,7 +19,7 @@ if len(sys.argv) < 2:
     sys.exit(1)
 
 orgFile_Path = sys.argv[1]
-orgFile_SF, samplerate = sf.read(orgFile_Path)
+# orgFile_SF, samplerate = sf.read(orgFile_Path)
 # print(data[samplerate*60]) = 60s'sample
 
 maxFrequency: float = findMaxFrequency(orgFile_Path)
