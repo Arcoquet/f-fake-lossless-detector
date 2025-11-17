@@ -25,5 +25,11 @@ def containerInfo(filepath: str) -> dict:
 def containerInfoSampleRate(filepath: str) -> int:
     return int(ffmpeg.probe(filepath)["streams"][0]['sample_rate'])
 
+
+def containerInfoBitRate(filepath: str) -> int:
+    """Returns bit rate in kbps (int)"""
+    return int(float(ffmpeg.probe(filepath)["streams"][0]['bit_rate']) * 0.001)
+
 # containerInfoSampleRate("test/01 Bitch. Lasagna.flac")
 # containerInfoSampleRate("/Users/vallevert/Desktop/fake-lossless-detector/test/son_pure_440_22050_3_1.wav")
+# containerInfoBitRate("/Users/vallevert/Desktop/fake-lossless-detector/test/son_pure_440_22050_3_1.wav")
