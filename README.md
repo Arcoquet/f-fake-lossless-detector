@@ -4,11 +4,10 @@
 
 ```
 pip install ffmpeg-python
-
 ```
 
 ## How to run
 
 ```
-python3 main.py </path/to/music.flac>
+python3 main.py /path/to/music.flac
 ```

@@ -1,6 +1,7 @@
-# python 3.12 only
-# code in english only
-# UNIX based file system only
+# Python 3.12 only
+# Code in english only
+# UNIX based file system only (macOS, Linux, ...), but no Windaube !
+
 import sys
 import soundfile as sf
 import numpy as np
@@ -15,7 +16,7 @@ from convert import *
 colorama_init()
 
 if len(sys.argv) < 2:
-    print("Usage: python3 main.py </path/to/music.flac>")
+    print("Usage: python3 main.py /path/to/music.flac")
     sys.exit(1)
 
 orgFile_Path = sys.argv[1]
