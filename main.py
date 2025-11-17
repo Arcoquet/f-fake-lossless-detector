@@ -20,6 +20,7 @@ if len(sys.argv) < 2:
 
 colorama_init()
 orgFile_Path = sys.argv[1]
+orgAudioData, _ = sf.read(orgFile_Path)
 red_flag_nb: int = 0
 
 maxFrequency: float = findMaxFrequency(orgFile_Path)
@@ -35,7 +36,12 @@ if (containerInfoBitRate(orgFile_Path) < 330):
     print(f"{Fore.RED}Bit rate is too low{Style.RESET_ALL}")
     red_flag_nb += 1
 
-print(f"Red flag number: {red_flag_nb}")
+# Clipping p111
+if ((np.array(orgAudioData)).max() > 1.00):
+    print(f"{Fore.RED}Some values are greater than 0 dB{Style.RESET_ALL}")
+    red_flag_nb += 1
+
+print(f"Red flag number: {Fore.RED}{red_flag_nb}{Style.RESET_ALL}")
 
 # diff % between input and mp3 convert file
 # calculate information on file, Entropy_flac > Entropy_mp3
