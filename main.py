@@ -8,7 +8,9 @@ import numpy as np
 from colorama import init as colorama_init
 from colorama import Fore
 from colorama import Style
+from pprint import pprint
 
+from container import containerInfo
 from freq import *
 from convert import *
 
@@ -28,6 +30,7 @@ print(f"Maximum frequency found: {maxFrequency * 0.001:.1f} kHz")
 if (maxFrequency < 20050.0):
     print(f"\t{Fore.RED}The maximum frequency is too low to be lossless{Style.RESET_ALL}")
 
+pprint(containerInfo(orgFile_Path))
 
 # if freq is 96 but max freq is 21khz, sus
 
