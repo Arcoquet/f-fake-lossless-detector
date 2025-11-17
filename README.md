@@ -2,4 +2,5 @@
 
 ## How to run
 
-brew install ffmpeg
+
+pip install ffmpeg-python

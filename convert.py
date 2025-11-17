@@ -12,6 +12,7 @@ lossy_format = {
 
 
 def convert(filepath: str):
+    # filepath = /user/truc/desktop/ma musique de fou.mp3
     fname, _ = os.path.splitext(filepath)
 
     # Tour of extensions and codecs
