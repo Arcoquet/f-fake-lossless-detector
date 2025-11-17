@@ -10,7 +10,7 @@ from colorama import Fore
 from colorama import Style
 from pprint import pprint
 
-from container import containerInfo
+from container import containerInfo, containerInfoSampleRate
 from freq import *
 from convert import *
 
@@ -26,15 +26,15 @@ orgFile_Path = sys.argv[1]
 # print(data[samplerate*60]) = 60s'sample
 
 maxFrequency: float = findMaxFrequency(orgFile_Path)
-print(f"Maximum frequency found: {maxFrequency * 0.001:.1f} kHz")
+# print(f"Maximum frequency found: {maxFrequency * 0.001:.1f} kHz")
 if (maxFrequency < 20050.0):
-    print(f"\t{Fore.RED}The maximum frequency is too low to be lossless{Style.RESET_ALL}")
+    print(f"{Fore.RED}The maximum frequency is too low to be lossless{Style.RESET_ALL}")
 
-pprint(containerInfo(orgFile_Path))
+if (containerInfoSampleRate(orgFile_Path) * 0.5 > maxFrequency * 2):
+    # print(f"\tmaxFrequency={maxFrequency}")
+    # print(f"\tcontainer sample rate={containerInfoSampleRate(orgFile_Path) * 0.5}")
+    print(f"{Fore.RED}Container sampling rate is far too high for the signal{Style.RESET_ALL}")
 
-# if freq is 96 but max freq is 21khz, sus
-
-# convert to mp3, acc, and so on and check if same file
 # diff % between input and mp3 convert file
 
 # return a score of probably fake lossless

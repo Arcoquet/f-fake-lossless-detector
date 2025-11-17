@@ -28,4 +28,4 @@ def convert(filepath: str):
 
 
 # convert("test/01 Bohemian Rhapsody (Remastered 2011).flac")
-convert("/Users/vallevert/Desktop/fake-lossless-detector/test/01 Bitch. Lasagna.flac")
+# convert("/Users/vallevert/Desktop/fake-lossless-detector/test/01 Bitch. Lasagna.flac")
