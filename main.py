@@ -15,9 +15,12 @@ orgFile_Path = sys.argv[1]
 orgFile_SF, samplerate = sf.read(orgFile_Path)
 # print(data[samplerate*60]) = 60s'sample
 
-getMaxFrequency("/Users/vallevert/Desktop/lossy-detector/test/03 Barbie Girl.flac")  # ~21
-getMaxFrequency("/Users/vallevert/Desktop/lossy-detector/test/03 Barbie Girl.mp3")  # ~16
-getMaxFrequency("/Users/vallevert/Desktop/lossy-detector/test/son_pure_440_22050_3_1.wav")  # = 440
+
+print(f"Maximum frequency found: {findMaxFrequency(orgFile_Path) * 0.001:.1f} kHz")
+
+print(findMaxFrequency("test/03 Barbie Girl.flac"))  # ~21
+print(findMaxFrequency("test/03 Barbie Girl.mp3"))  # ~16kHz
+print(findMaxFrequency("test/son_pure_440_22050_3_1.wav"))  # = 440
 
 # if freq max=16kHz = sus because mp3 max is near
 # if freq is 96 but max freq is 21khz, sus

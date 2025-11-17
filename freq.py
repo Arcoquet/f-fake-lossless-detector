@@ -1,29 +1,41 @@
-import ffmpeg
-import soundfile as sf
-from scipy import signal
-from scipy.io import wavfile
 import numpy as np
+import soundfile as sf
+from scipy.fft import fft, fftfreq
 
 
-def getMaxFrequency(filepath: str) -> float:
-    file_SF, samplerate = sf.read(filepath)
-    duration: float = file_SF.shape[0] / samplerate
+def findMaxFrequency(filepath: str, threshold_db: float = -90.0) -> float:
+    audio, sr = sf.read(filepath)
 
-    try:
-        leftChannel = [i for i in file_SF[:, 0]]
-        rightChannel = [i for i in file_SF[:, 1]]
-    except:  # for mono music
-        leftChannel = [i for i in file_SF[:]]
+    # Convert to mono if stereo
+    if audio.ndim > 1:
+        audio = audio.mean(axis=1)
 
-    fft_samples = np.abs(np.fft.fft(leftChannel))
+    # Use a few seconds only (faster and enough)
+    audio = audio[: sr * 3]
 
-    peak_index = np.argmax(fft_samples)  # get indices of the largest amplitude
-    max_frequency = peak_index / (len(leftChannel)) * samplerate
+    N = len(audio)
 
-    print(f"""Maximum frequency: {str(max_frequency)} Hz""")
+    # Hann window
+    window = audio * np.hanning(N)
 
-    return max_frequency
+    # FFT
+    spectrum = np.abs(fft(window))
+    freqs = fftfreq(N, 1 / sr)
 
+    # Positive frequencies only
+    mask = freqs >= 0
+    freqs = freqs[mask]
+    spectrum = spectrum[mask]
 
-# python max frequency of a sound
-# https://stackoverflow.com/questions/75286292/get-maximum-of-spectrum-from-audio-file-with-python-audacity-like
+    # Convert magnitude to dB
+    spectrum_db = 20 * np.log10(spectrum / np.max(spectrum))
+
+    # Find frequencies above threshold (e.g., -40 dB)
+    valid = np.where(spectrum_db > threshold_db)[0]
+
+    if len(valid) == 0:
+        return 0.0
+
+    max_freq = freqs[valid[-1]]
+
+    return float(max_freq)
