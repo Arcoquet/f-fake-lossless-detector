@@ -33,4 +33,5 @@ def convert(filepath: str):
     #     )
 
 
-convert("/Users/vallevert/Desktop/fake-lossless-detector/test/01 Bitch Lasagna.flac")
+convert("test/01 Bitch Lasagna.flac")
+# convert("/Users/vallevert/Desktop/fake-lossless-detector/test/01 Bitch Lasagna.flac")
