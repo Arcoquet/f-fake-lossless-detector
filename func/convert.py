@@ -25,7 +25,7 @@ def convert(filePath: str):
         )
 
 
-def removeAllConvertedFile() -> None:
+def removeAllConvertedFile(filePath: str) -> None:
     # TODO Armand
     pass
 

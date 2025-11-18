@@ -50,6 +50,7 @@ if ((np.array(orgAudioData)).max() > 1.00):
     redFlagNb += 1
 
 if (isASimilarFormat(orgFile_Path)):
+    removeAllConvertedFile(orgFile_Path)
     print(f"{Fore.RED}An other format (codec) is near{Style.RESET_ALL}")
     redFlagNb += 1
 
