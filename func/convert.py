@@ -3,8 +3,15 @@ import os
 import ffmpeg
 
 # List of lossy compression formats supported by ffmpeg
+# lossyFormat = {
+#     "ac3": "ac3",
+#     "mp3": "libmp3lame",
+#     "opus": "libopus",
+#     "wma": "wmav2",
+#     "aac": "aac"
+# }
+# TODO in diff.py, after this, can re-add ac3
 lossyFormat = {
-    "ac3": "ac3",
     "mp3": "libmp3lame",
     "opus": "libopus",
     "wma": "wmav2",
@@ -26,7 +33,7 @@ def convert(filePath: str):
 
 
 def removeAllConvertedFile(filePath: str) -> None:
-    # TODO Armand
+    # TODO Armand, BE CAREFULL
     pass
 
 # convert("test/ext.rait-arist.ochat-devenir-un-cat.wav")

@@ -65,6 +65,7 @@ def soundEntropy(filePath: str,
 
 
 def isASimilarCodec(filePathOrg: str) -> bool:
+    # TODO Armand if extenxion=ac3, sf can't read it, use another lib
     listPath = filePathOrg.split("/")
     getFname = str("".join(listPath[-1]))[::-1].split(".", 1)[1][::-1]
 
@@ -83,14 +84,8 @@ def isASimilarInformation(filePathOrg: str) -> bool:
 
     for ext, codec in lossyFormat.items():
         outputPath = os.path.join("processing", f"{getFname}.{ext}")
-        print(f"outputPath={outputPath}")
 
-        # TODO Armand
-        #  compare entropy of filePathOrg and each other codec
-        #  if entropy is the same (+tolerance), not a fake lossless
-        #  but if not, return False, meaning there is more
-        #  info/data in the filePathOrg than outputPath
-        if (not (soundEntropy(filePathOrg) > soundEntropy(outputPath) * 1.00)):
+        if (not (soundEntropy(filePathOrg) > soundEntropy(outputPath) * 1.015)):
             return False
 
     return True
