@@ -65,13 +65,13 @@ def soundEntropy(filePath: str,
 
 
 def isASimilarCodec(filePathOrg: str) -> bool:
-    # TODO Armand if extenxion=ac3, sf can't read it, use another lib
+    # TODO Armand if extension in [ac3,aac,wma], SF can't read it, use another lib
     listPath = filePathOrg.split("/")
     getFname = str("".join(listPath[-1]))[::-1].split(".", 1)[1][::-1]
 
     for ext, codec in lossyFormat.items():
         outputPath = os.path.join("processing", f"{getFname}.{ext}")
-        if (signalDifferencePourcentage(filePathOrg, outputPath) > 0.98):  # TODO Armand find this constant
+        if (signalDifferencePourcentage(filePathOrg, outputPath) > 0.985):  # TODO Armand find this constant.
             return True
 
     return False
@@ -85,7 +85,7 @@ def isASimilarInformation(filePathOrg: str) -> bool:
     for ext, codec in lossyFormat.items():
         outputPath = os.path.join("processing", f"{getFname}.{ext}")
 
-        if (not (soundEntropy(filePathOrg) > soundEntropy(outputPath) * 1.015)):
+        if (not (soundEntropy(filePathOrg) > soundEntropy(outputPath) * 1.015)):  # TODO flac2falc=1, flac2mp3=1.015
             return False
 
     return True

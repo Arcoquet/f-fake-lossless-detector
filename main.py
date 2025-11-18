@@ -61,3 +61,4 @@ removeAllConvertedFile(orgFile_Path)
 if redFlagNb > 0:
     print(f"File: {orgFile_Path}\n"
           f"Red flag number: {Fore.RED}{redFlagNb}{Style.RESET_ALL}")
+print("Red flag number should be 6 for MP3, and 0 for FLAC")

@@ -10,12 +10,10 @@ import ffmpeg
 #     "wma": "wmav2",
 #     "aac": "aac"
 # }
-# TODO in diff.py, after this, can re-add ac3
+# TODO in diff.py, after this, can re-add ac3, aac and wma
 lossyFormat = {
     "mp3": "libmp3lame",
     "opus": "libopus",
-    "wma": "wmav2",
-    "aac": "aac"
 }
 
 
