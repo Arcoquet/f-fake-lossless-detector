@@ -10,9 +10,13 @@ from colorama import Fore
 from colorama import Style
 from pprint import pprint
 
-from container import *
-from freq import *
-from convert import *
+from func.container import *
+from func.freq import *
+from func.convert import *
+
+# TODO
+# Usage: python3 main.py /path/to/music.flac
+# Usage: python3 main.py -d /path/to/musicDir --> will call recursively
 
 if len(sys.argv) < 2:
     print("Usage: python3 main.py /path/to/music.flac")
