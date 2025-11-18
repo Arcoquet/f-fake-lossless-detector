@@ -20,7 +20,7 @@ from func.diff import *
 # Usage: python3 main.py -d /path/to/musicDir --> will call recursively
 # compiled version ?
 # .app version ?
-# reprendre lecture p114
+# reprendre lecture p117
 # calculate information on file, Entropy_flac > Entropy_mp3
 
 if len(sys.argv) < 2:
@@ -33,7 +33,7 @@ orgAudioData, _ = sf.read(orgFile_Path)
 redFlagNb: int = 0
 
 maxFrequency: float = findMaxFrequency(orgFile_Path)
-if (maxFrequency < 20500.0):
+if (maxFrequency < 20550.0):
     print(f"{Fore.RED}The maximum frequency is too low{Style.RESET_ALL}")
     redFlagNb += 1
 
@@ -45,7 +45,6 @@ if (containerInfoBitRate(orgFile_Path) < 330):
     print(f"{Fore.RED}Bit rate is too low{Style.RESET_ALL}")
     redFlagNb += 1
 
-# TODO Clipping p111
 if ((np.array(orgAudioData)).max() > 1.00):
     print(f"{Fore.RED}Some values are greater than 0 dB{Style.RESET_ALL}")
     redFlagNb += 1
