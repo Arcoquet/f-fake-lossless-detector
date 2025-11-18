@@ -17,6 +17,8 @@ from func.convert import *
 # TODO
 # Usage: python3 main.py /path/to/music.flac
 # Usage: python3 main.py -d /path/to/musicDir --> will call recursively
+# compiled version ?
+# .app version ?
 
 if len(sys.argv) < 2:
     print("Usage: python3 main.py /path/to/music.flac")
