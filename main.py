@@ -20,8 +20,6 @@ from func.diff import *
 # Usage: python3 main.py -d /path/to/musicDir --> will call recursively
 # compiled version ?
 # .app version ?
-# reprendre lecture p117
-# calculate information on file, Entropy_flac > Entropy_mp3
 
 if len(sys.argv) < 2:
     print("Usage: python3 main.py /path/to/music.flac")
@@ -49,10 +47,16 @@ if ((np.array(orgAudioData)).max() > 1.00):
     print(f"{Fore.RED}Some values are greater than 0 dB{Style.RESET_ALL}")
     redFlagNb += 1
 
-if (isASimilarFormat(orgFile_Path)):
-    removeAllConvertedFile(orgFile_Path)
-    print(f"{Fore.RED}An other format (codec) is near{Style.RESET_ALL}")
+convert(orgFile_Path)
+if (isASimilarCodec(orgFile_Path)):
+    print(f"{Fore.RED}Another lossy codec is near{Style.RESET_ALL}")
     redFlagNb += 1
+
+if (not isASimilarInformation(orgFile_Path)):
+    print(f"{Fore.RED}No quality loss found in others converted codecs{Style.RESET_ALL}")
+    redFlagNb += 1
+
+removeAllConvertedFile(orgFile_Path)
 
 if redFlagNb > 0:
     print(f"File: {orgFile_Path}\n"
