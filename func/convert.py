@@ -1,8 +1,9 @@
 import os
+
 import ffmpeg
 
 # List of lossy compression formats supported by ffmpeg
-lossy_format = {
+lossyFormat = {
     "ac3": "ac3",
     "mp3": "libmp3lame",
     "opus": "libopus",
@@ -11,18 +12,22 @@ lossy_format = {
 }
 
 
-def convert(filepath: str):
-    list_path = filepath.split("/")
-    get_fname = str("".join(list_path[-1]))[::-1].split(".", 1)[1]
-    get_fname = get_fname[::-1]
+def convert(filePath: str):
+    listPath = filePath.split("/")
+    getFname = str("".join(listPath[-1]))[::-1].split(".", 1)[1][::-1]
 
-    for ext, codec in lossy_format.items():
-        output_path = os.path.join("processing", f"{get_fname}.{ext}")
+    for ext, codec in lossyFormat.items():
+        outputPath = os.path.join("processing", f"{getFname}.{ext}")
         (
-            ffmpeg.input(filepath).output(output_path, acodec=codec, vn=None).run(capture_stdout=True,
-                                                                                  capture_stderr=True,
-                                                                                  overwrite_output=True)
+            ffmpeg.input(filePath).output(outputPath, acodec=codec, vn=None).run(capture_stdout=True,
+                                                                                 capture_stderr=True,
+                                                                                 overwrite_output=True)
         )
+
+
+def removeAllConvertedFile() -> None:
+    # TODO Armand
+    pass
 
 # convert("test/ext.rait-arist.ochat-devenir-un-cat.wav")
 # convert("/Users/vallevert/Desktop/fake-lossless-detector/test/01 Bitch. Lasagna.flac")
