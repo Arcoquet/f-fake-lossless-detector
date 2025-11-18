@@ -3,7 +3,7 @@
 # First install libraries
 
 ```
-pip install ffmpeg-python
+pip install ffmpeg-python==0.2.0
 ```
 
 ## How to run
