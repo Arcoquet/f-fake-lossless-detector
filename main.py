@@ -26,7 +26,7 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
     maxFrequency: float = findMaxFrequency(orgAudioData, orgSampleRate)
     if maxFrequency < 20550.0:
         if not quiet:
-            print(f"{blueTab + Fore.YELLOW}The maximum frequency is too low{Style.RESET_ALL}")
+            print(f"{blueTab + Fore.YELLOW}Frequency cut-off{Style.RESET_ALL}")
         redFlagNb += 1
 
     # Detects if max encoded frequency is far less than max container capability (20.5 kHz Mp3 to 96 kHz Flac)
@@ -48,6 +48,7 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
         redFlagNb += 1
 
     # Detects if another codec is near
+    # TODO verif
     convert(orgFilePath)
     if isASimilarCodec(orgFilePath, orgAudioData):
         if not quiet:
@@ -55,9 +56,10 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
         redFlagNb += 1
 
     # Detects if information is greater than other codecs
+    # TODO verif
     if not isASimilarInformation(orgFilePath, orgAudioData, orgSampleRate):
         if not quiet:
-            print(f"{blueTab + Fore.YELLOW}No quality loss found in others converted codecs{Style.RESET_ALL}")
+            print(f"{blueTab + Fore.YELLOW}No quality loss found in lossy codec{Style.RESET_ALL}")
         redFlagNb += 1
 
     # Clean up files  --------------------------------------------------------------------------------------------------
