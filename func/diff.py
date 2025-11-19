@@ -2,6 +2,7 @@ from func.convert import *
 from scipy.stats import entropy
 import soundfile as sf
 import numpy as np
+from scipy.spatial.distance import cosine
 from scipy.signal import stft
 
 
@@ -11,10 +12,31 @@ def signalDifferencePourcentage(filePathOrg: str, filePathConverted: str) -> flo
     :return float: pourcentage of difference between two arrays"""
 
     # TODO /Doc/diff().jpeg
-    # TODO Armand
 
-    return 0.0
+    data1, sr1 = sf.read(filePathOrg)
+    data2, sr2 = sf.read(filePathConverted)
 
+    if sr1 != sr2:
+        raise ValueError("Sample rates differ")
+
+    # Mono conversion
+    if data1.ndim > 1:
+        data1 = np.mean(data1, axis=1)
+    if data2.ndim > 1:
+        data2 = np.mean(data2, axis=1)
+
+    min_len = min(len(data1), len(data2))
+    data1 = data1[:min_len]
+    data2 = data2[:min_len]
+
+    data1 = data1 / np.max(np.abs(data1))
+    data2 = data2 / np.max(np.abs(data2))
+
+    diff = np.abs(data1 - data2)
+
+    similarity = np.mean(diff) * 100
+    
+    return similarity
 
 def soundEntropy(filePath: str,
                  nFft: int = 2048,
@@ -70,9 +92,8 @@ def isASimilarCodec(filePathOrg: str) -> bool:
 
     for ext, codec in lossyFormat.items():
         outputPath = os.path.join("processing", f"{getFname}.{ext}")
-        if (signalDifferencePourcentage(filePathOrg, outputPath) > 0.985):  # TODO Armand find this constant.
+        if (signalDifferencePourcentage(filePathOrg, outputPath) > 0.9998):  # TODO Constant to find
             return True
-
     return False
 
 
