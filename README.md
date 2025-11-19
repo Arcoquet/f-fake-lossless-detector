@@ -44,4 +44,4 @@ This project contains some limitations:
 
 # Credit
 
-Developed by Vallevert
+Developed by Vallevert and Armand C.
