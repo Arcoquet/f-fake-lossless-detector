@@ -8,6 +8,7 @@ import numpy as np
 from colorama import init as colorama_init
 from colorama import Fore
 from colorama import Style
+import glob
 from pprint import pprint
 
 from sympy.strategies.core import switch
@@ -73,16 +74,6 @@ def fileAnalysis(orgFilePath: str) -> float:
     return proba
 
 
-# TODO
-# compiled version ?
-# .app version ?
-
-# case one file
-# if len(sys.argv) < 2:
-
-# orgFilePath = sys.argv[1]
-
-
 arg: list[str] = sys.argv[1:]
 
 # One file
@@ -92,7 +83,14 @@ if len(arg) == 1:
 # Folder: multi files
 if len(arg) == 2:
     # TODO
-    pass
+    root: str = arg[1]
+
+    files: list[str] = []
+
+    files += glob.glob(root + '/**/*.mp3', recursive=True)
+    files += glob.glob(root + '/**/*.flac', recursive=True)
+    print(files)
+    print(len(files))
 
 if len(arg) > 2 or len(arg) < 1:
     print(f"{Fore.RED}Usage: python3 main.py /path/to/music.flac\n"
