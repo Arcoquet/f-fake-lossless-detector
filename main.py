@@ -7,7 +7,6 @@ from colorama import init as colorama_init
 from colorama import Fore
 from colorama import Style
 import glob
-
 from func.container import *
 from func.freq import *
 from func.diff import *
@@ -99,5 +98,8 @@ if len(arg) == 2:
     filesPath += glob.glob(root + '/**/*.flac', recursive=True)
     filesPath += glob.glob(root + '/**/*.wav', recursive=True)
 
+    compt: int = 0
     for filePath in filesPath:
-        fileAnalysis(filePath, quiet=False)
+        compt += 1
+        print(f"Progression: {compt}/{len(filesPath)}")
+        fileAnalysis(filePath, quiet=True)
