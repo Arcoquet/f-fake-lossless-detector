@@ -3,13 +3,10 @@
 # UNIX-based file system only (macOS, Linux, ...)
 
 import sys
-import soundfile as sf
-import numpy as np
 from colorama import init as colorama_init
 from colorama import Fore
 from colorama import Style
 import glob
-from pprint import pprint
 
 from func.container import *
 from func.freq import *
