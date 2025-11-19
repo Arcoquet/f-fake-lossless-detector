@@ -2,8 +2,10 @@ import os
 import shutil
 import ffmpeg
 
+losslessFormat: list[str] = ["flac", "m4a", "wav"]
+
 # List of lossy compression formats supported by ffmpeg
-# lossyFormat = {
+# lossyFormat: dict[str, str]  = {
 #     "ac3": "ac3",
 #     "mp3": "libmp3lame",
 #     "opus": "libopus",
@@ -12,7 +14,7 @@ import ffmpeg
 # }
 
 # TODO in diff.py, after this, can re-add ac3, aac and wma
-lossyFormat = {
+lossyFormat: dict[str, str] = {
     "mp3": "libmp3lame",
     "opus": "libopus",
 }
