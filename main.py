@@ -11,11 +11,8 @@ from colorama import Style
 import glob
 from pprint import pprint
 
-from sympy.strategies.core import switch
-
 from func.container import *
 from func.freq import *
-from func.convert import *
 from func.diff import *
 
 colorama_init()
@@ -79,7 +76,7 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
             f"{Fore.RED}⚠️ \033[4m{orgFilePath}{Style.RESET_ALL + Fore.RED} is suspect "
             f"({redFlagNb} reds flags) ⚠️{Style.RESET_ALL}")
 
-    # print("DEBUG TODO: redFlagNb should be 6 for MP3, and 0 for FLAC")
+    # print("TODO: redFlagNb should be 6 for MP3, and 0 for FLAC")
 
     return redFlagNb
 
@@ -95,7 +92,7 @@ if len(arg) > 2 or len(arg) < 1:
 if len(arg) == 1:
     fileAnalysis(arg[0], quiet=False)
 
-# Folder: multi files
+# Folder: multiple files
 if len(arg) == 2:
     root: str = arg[1]
     filesPath: list[str] = []
