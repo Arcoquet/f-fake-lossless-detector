@@ -7,11 +7,8 @@ from scipy.signal import stft
 
 
 def signalDifferencePourcentage(orgAudioData: list[float], convertedAudioData: list[float]) -> float:
-    """Takes two filepath (relative or absolute), reads both, put it into 2 arrays (sf.read())
-    Then calculates the pourcentage of difference between two arrays.
-    :return float: pourcentage of difference between two arrays"""
-
-    # TODO /Doc/diff().jpeg
+    """Takes two audio array, calculates the difference between two arrays.
+    :return float: difference between two arrays"""
 
     orgAudioData = np.array(orgAudioData)
     convertedAudioData = np.array(convertedAudioData)
@@ -31,8 +28,7 @@ def signalDifferencePourcentage(orgAudioData: list[float], convertedAudioData: l
 
     diff = np.abs(orgAudioData - convertedAudioData)
 
-    similarity = np.mean(diff) * 100
-
+    similarity = np.mean(diff)
     return similarity
 
 

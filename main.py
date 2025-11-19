@@ -102,4 +102,4 @@ if len(arg) == 2:
     for filePath in filesPath:
         compt += 1
         print(f"Progression: {compt}/{len(filesPath)}")
-        fileAnalysis(filePath, quiet=True)
+        fileAnalysis(filePath, quiet=False)
