@@ -5,13 +5,15 @@
 ### macOS
 
 ```bash
-pip install ffmpeg-python==0.2.0 numpy colorama soundfile pprint scipy;
+pip install ffmpeg-python==0.2.0;
+pip install numpy==2.3.5 colorama==0.4.6 soundfile==0.13.1 scipy==1.16.3;
 ```
 
 ### Linux-based
 
 ```bash
-pip install ffmpeg numpy colorama soundfile pprint scipy;
+pip install ffmpeg==1.4;
+pip install numpy==2.3.5 colorama==0.4.6 soundfile==0.13.1 scipy==1.16.3;
 ```
 
 ## How to run
