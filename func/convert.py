@@ -1,23 +1,17 @@
 import os
 import shutil
 import ffmpeg
-import soundfile as sf
+import numpy as np
 
 losslessFormat: list[str] = ["flac", "m4a", "wav"]
 
 # List of lossy compression formats supported by ffmpeg
-# lossyFormat: dict[str, str]  = {
-#     "ac3": "ac3",
-#     "mp3": "libmp3lame",
-#     "opus": "libopus",
-#     "wma": "wmav2",
-#     "aac": "aac"
-# }
-
-# TODO Armand see filePathToAudioArray()
-lossyFormat: dict[str, str] = {
+lossyFormat: dict[str, str]  = {
+    "ac3": "ac3",
     "mp3": "libmp3lame",
     "opus": "libopus",
+    "wma": "wmav2",
+    "aac": "aac"
 }
 
 
@@ -45,6 +39,26 @@ def removeAllConvertedFile(filePath: str) -> None:
 
 
 def filePathToAudioArray(filePath: str):
-    # TODO Armand if format not supported by SF, use another lib
-    audioData, sampleRate = sf.read(filePath)
+    probe = ffmpeg.probe(filePath)
+    audio_streams = [s for s in probe["streams"] if s["codec_type"] == "audio"]
+    sampleRate = int(audio_streams[0]["sample_rate"])
+    channels = int(audio_streams[0]["channels"])
+
+    out, _ = (
+        ffmpeg
+        .input(filePath)
+        .output(
+            'pipe:',
+            format='s16le',
+            acodec='pcm_s16le',
+            ac=channels,
+            ar=sampleRate
+        )
+        .run(capture_stdout=True, capture_stderr=True)
+    )
+
+    audioData = np.frombuffer(out, dtype=np.int16).astype(np.float32)
+    audioData = audioData.reshape(-1, channels)  # re-shape in (samples, channels)
+    audioData /= 32768.0
+
     return audioData, sampleRate

@@ -1,8 +1,5 @@
 from func.convert import *
-from scipy.stats import entropy
-import soundfile as sf
 import numpy as np
-from scipy.spatial.distance import cosine
 from scipy.signal import stft
 
 
@@ -29,8 +26,8 @@ def signalDifferencePourcentage(orgAudioData: list[float], convertedAudioData: l
 
     diff = np.abs(orgAudioData - convertedAudioData)
 
-    similarity = np.mean(diff)
-    return similarity
+    percent = np.mean(diff)
+    return percent
 
 
 def soundEntropy(audioData: list[float],
@@ -88,7 +85,7 @@ def isASimilarCodec(orgFilePath: str, orgAudioData: list[float]) -> bool:
         covertedPath = os.path.join("processing", f"{getFname}.{ext}")
         convertedAudioData, _ = filePathToAudioArray(covertedPath)
 
-        if signalDifferencePourcentage(orgAudioData, convertedAudioData) > 0.985:  # TODO Armand find this constant.
+        if signalDifferencePourcentage(orgAudioData, convertedAudioData) < 0.017:
             return True
     return False
 
