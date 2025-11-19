@@ -12,32 +12,29 @@ def signalDifferencePourcentage(orgAudioData: list[float], convertedAudioData: l
     :return float: pourcentage of difference between two arrays"""
 
     # TODO /Doc/diff().jpeg
-    data1, sr1 = sf.read(orgAudioData)
-    data2, sr2 = sf.read(convertedAudioData)
-
-    if sr1 != sr2:
-        raise ValueError("Sample rates differ")
 
     # Mono conversion
-    if data1.ndim > 1:
-        data1 = np.mean(data1, axis=1)
-    if data2.ndim > 1:
-        data2 = np.mean(data2, axis=1)
+    if orgAudioData.ndim > 1:
+        orgAudioData = np.mean(orgAudioData, axis=1)
+    if convertedAudioData.ndim > 1:
+        convertedAudioData = np.mean(convertedAudioData, axis=1)
 
-    min_len = min(len(data1), len(data2))
-    data1 = data1[:min_len]
-    data2 = data2[:min_len]
+    min_len = min(len(orgAudioData), len(convertedAudioData))
+    orgAudioData = orgAudioData[:min_len]
+    convertedAudioData = convertedAudioData[:min_len]
 
-    data1 = data1 / np.max(np.abs(data1))
-    data2 = data2 / np.max(np.abs(data2))
+    orgAudioData = orgAudioData / np.max(np.abs(orgAudioData))
+    convertedAudioData = convertedAudioData / np.max(np.abs(convertedAudioData))
 
-    diff = np.abs(data1 - data2)
+    diff = np.abs(orgAudioData - convertedAudioData)
 
     similarity = np.mean(diff) * 100
-    
+
     return similarity
 
-def soundEntropy(filePath: str,
+
+def soundEntropy(audioData: list[float],
+                 sampleRate: int,
                  nFft: int = 2048,
                  hop: int = 512,
                  window: str = 'hann',
@@ -90,7 +87,7 @@ def isASimilarCodec(orgFilePath: str, orgAudioData: list[float]) -> bool:
     for ext, codec in lossyFormat.items():
         covertedPath = os.path.join("processing", f"{getFname}.{ext}")
         convertedAudioData, _ = filePathToAudioArray(covertedPath)
-    
+
         if signalDifferencePourcentage(orgAudioData, convertedAudioData) > 0.985:  # TODO Armand find this constant.
             return True
     return False
