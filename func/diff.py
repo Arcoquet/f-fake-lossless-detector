@@ -23,6 +23,7 @@ def signalDifferencePourcentage(orgAudioData: list[float], convertedAudioData: l
     orgAudioData = orgAudioData[:min_len]
     convertedAudioData = convertedAudioData[:min_len]
 
+    # Normalisation due to lossy codec being above 0 dB
     orgAudioData = orgAudioData / np.max(np.abs(orgAudioData))
     convertedAudioData = convertedAudioData / np.max(np.abs(convertedAudioData))
 
