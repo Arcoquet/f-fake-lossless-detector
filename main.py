@@ -34,45 +34,50 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
     maxFrequency: float = findMaxFrequency(orgFilePath)
     if (maxFrequency < 20550.0):
         if (not quiet):
-            print(f"{blueTab + Fore.RED}The maximum frequency is too low{Style.RESET_ALL}")
+            print(f"{blueTab + Fore.YELLOW}The maximum frequency is too low{Style.RESET_ALL}")
         redFlagNb += 1
 
     # Detects if max encoded frequency is far less than max container capability (20.5 kHz Mp3 to 96 kHz Flac)
     if (containerInfoSampleRate(orgFilePath) * 0.5 > maxFrequency * 2):
         if (not quiet):
-            print(f"{blueTab + Fore.RED}Container sampling rate is far too high for the signal{Style.RESET_ALL}")
+            print(f"{blueTab + Fore.YELLOW}Container sampling rate is far too high for the signal{Style.RESET_ALL}")
         redFlagNb += 1
 
     # Detects if bit rate is too low for lossless
     if (containerInfoBitRate(orgFilePath) < 330):
         if (not quiet):
-            print(f"{blueTab + Fore.RED}Bit rate is too low{Style.RESET_ALL}")
+            print(f"{blueTab + Fore.YELLOW}Bit rate is too low{Style.RESET_ALL}")
         redFlagNb += 1
 
     # Detects saturated values
     if ((np.array(orgAudioData)).max() > 1.00):
         if (not quiet):
-            print(f"{blueTab + Fore.RED}Some values are greater than 0 dB{Style.RESET_ALL}")
+            print(f"{blueTab + Fore.YELLOW}Some values are greater than 0 dB{Style.RESET_ALL}")
         redFlagNb += 1
 
     # Detects if another codec is near
     convert(orgFilePath)
     if (isASimilarCodec(orgFilePath)):
         if (not quiet):
-            print(f"{blueTab + Fore.RED}Another lossy codec is near{Style.RESET_ALL}")
+            print(f"{blueTab + Fore.YELLOW}Another lossy codec is near{Style.RESET_ALL}")
         redFlagNb += 1
 
     # Detects if information is greater than other codecs
     if (not isASimilarInformation(orgFilePath)):
         if (not quiet):
-            print(f"{blueTab + Fore.RED}No quality loss found in others converted codecs{Style.RESET_ALL}")
+            print(f"{blueTab + Fore.YELLOW}No quality loss found in others converted codecs{Style.RESET_ALL}")
         redFlagNb += 1
 
     # Clean up files
     removeAllConvertedFile(orgFilePath)
 
     if (not quiet):
-        print(f"redFlagNb={Fore.RED}{redFlagNb}{Style.RESET_ALL}\n")
+        print(f"{blueTab}redFlagNb={Fore.YELLOW}{redFlagNb}{Style.RESET_ALL}")
+
+    if redFlagNb >= 2:
+        print(
+            f"{Fore.RED}⚠️ \033[4m{orgFilePath}{Style.RESET_ALL + Fore.RED} is suspect "
+            f"({redFlagNb} reds flags) ⚠️{Style.RESET_ALL}")
 
     # print("DEBUG TODO: redFlagNb should be 6 for MP3, and 0 for FLAC")
 
@@ -99,6 +104,4 @@ if len(arg) == 2:
     filesPath += glob.glob(root + '/**/*.wav', recursive=True)
 
     for filePath in filesPath:
-        redFlagNb: int = fileAnalysis(filePath, quiet=True)
-        if redFlagNb >= 2:
-            print(f"{filePath} is suspect ({Fore.RED + str(redFlagNb) + Style.RESET_ALL} reds flags)")
+        fileAnalysis(filePath, quiet=False)
