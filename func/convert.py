@@ -14,7 +14,7 @@ losslessFormat: list[str] = ["flac", "m4a", "wav"]
 #     "aac": "aac"
 # }
 
-# TODO in diff.py, after this, can re-add ac3, aac and wma
+# TODO Armand see filePathToAudioArray()
 lossyFormat: dict[str, str] = {
     "mp3": "libmp3lame",
     "opus": "libopus",
@@ -44,7 +44,7 @@ def removeAllConvertedFile(filePath: str) -> None:
     os.mkdir("processing")
 
 
-def file2array(filePath: str) -> list[float]:
-    # TODO if format not supported by SF, use another lib
-    audioData, _ = sf.read(filePath)
-    return audioData
+def filePathToAudioArray(filePath: str):
+    # TODO Armand if format not supported by SF, use another lib
+    audioData, sampleRate = sf.read(filePath)
+    return audioData, sampleRate
