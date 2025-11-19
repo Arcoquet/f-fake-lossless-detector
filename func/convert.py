@@ -6,7 +6,7 @@ import numpy as np
 losslessFormat: list[str] = ["flac", "m4a", "wav"]
 
 # List of lossy compression formats supported by ffmpeg
-lossyFormat: dict[str, str]  = {
+lossyFormat: dict[str, str] = {
     "ac3": "ac3",
     "mp3": "libmp3lame",
     "opus": "libopus",
@@ -40,9 +40,9 @@ def removeAllConvertedFile(filePath: str) -> None:
 
 def filePathToAudioArray(filePath: str):
     probe = ffmpeg.probe(filePath)
-    audio_streams = [s for s in probe["streams"] if s["codec_type"] == "audio"]
-    sampleRate = int(audio_streams[0]["sample_rate"])
-    channels = int(audio_streams[0]["channels"])
+    audioStreams = [s for s in probe["streams"] if s["codec_type"] == "audio"]
+    sampleRate = int(audioStreams[0]["sample_rate"])
+    channels = int(audioStreams[0]["channels"])
 
     out, _ = (
         ffmpeg

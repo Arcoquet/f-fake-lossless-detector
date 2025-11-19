@@ -1,6 +1,4 @@
-# Python 3.12 only
-# Code in english only
-# UNIX-based file system only (macOS, Linux, ...)
+# read README.md before use
 
 import sys
 from colorama import init as colorama_init
@@ -25,7 +23,7 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
     # Detection methods ------------------------------------------------------------------------------------------------
 
     # Detects MP3 20.5kHz cut-off
-    maxFrequency: float = findMaxFrequency(orgFilePath)
+    maxFrequency: float = findMaxFrequency(orgAudioData, orgSampleRate)
     if maxFrequency < 20550.0:
         if not quiet:
             print(f"{blueTab + Fore.YELLOW}The maximum frequency is too low{Style.RESET_ALL}")
@@ -74,8 +72,6 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
             f"{Fore.RED}⚠️ \033[4m{orgFilePath}{Style.RESET_ALL + Fore.RED} is suspect "
             f"({redFlagNb} reds flags) ⚠️{Style.RESET_ALL}")
 
-    # print("TODO: redFlagNb should be 6 for MP3, and 0 for FLAC")
-
     return redFlagNb
 
 
@@ -103,3 +99,5 @@ if len(arg) == 2:
         compt += 1
         print(f"Progression: {compt}/{len(filesPath)}")
         fileAnalysis(filePath, quiet=False)
+
+# TODO: redFlagNb should be 6 for MP3, and 0 for FLAC

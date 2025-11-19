@@ -3,24 +3,22 @@ import soundfile as sf
 from scipy.fft import fft, fftfreq
 
 
-def findMaxFrequency(filepath: str, threshold_db: float = -90.0) -> float:
-    audio, sr = sf.read(filepath)
-
+def findMaxFrequency(audioData: list[float], sampleRate: int, thresholdDb: float = -90.0) -> float:
     # Convert to mono if stereo
-    if audio.ndim > 1:
-        audio = audio.mean(axis=1)
+    if audioData.ndim > 1:
+        audioData = audioData.mean(axis=1)
 
     # Use a few seconds only (faster and enough)
-    audio = audio[: sr * 3]
+    audioData = audioData[: sampleRate * 3]
 
-    N = len(audio)
+    N = len(audioData)
 
     # Hann window
-    window = audio * np.hanning(N)
+    window = audioData * np.hanning(N)
 
     # FFT
     spectrum = np.abs(fft(window))
-    freqs = fftfreq(N, 1 / sr)
+    freqs = fftfreq(N, 1 / sampleRate)
 
     # Positive frequencies only
     mask = freqs >= 0
@@ -31,7 +29,7 @@ def findMaxFrequency(filepath: str, threshold_db: float = -90.0) -> float:
     spectrum_db = 20 * np.log10(spectrum / np.max(spectrum))
 
     # Find frequencies above threshold (e.g., -40 dB)
-    valid = np.where(spectrum_db > threshold_db)[0]
+    valid = np.where(spectrum_db > thresholdDb)[0]
 
     if len(valid) == 0:
         return 0.0
