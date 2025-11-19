@@ -5,20 +5,20 @@ from pprint import pprint
 def containerInfo(filepath: str) -> dict:
     # pprint(ffmpeg.probe(filepath)["streams"][0])
 
-    sample_rate: float = float(ffmpeg.probe(filepath)["streams"][0]['sample_rate'])
-    bits_per_sample: int = int(ffmpeg.probe(filepath)["streams"][0]['bits_per_sample'])
-    codec_long_name: str = str(ffmpeg.probe(filepath)["streams"][0]['codec_long_name'])
-    bit_rate: int = int(ffmpeg.probe(filepath)["streams"][0]['bit_rate'])
+    sampleRate: float = float(ffmpeg.probe(filepath)["streams"][0]['sample_rate'])
+    bitsPerSample: int = int(ffmpeg.probe(filepath)["streams"][0]['bits_per_sample'])
+    codecLongName: str = str(ffmpeg.probe(filepath)["streams"][0]['codec_long_name'])
+    bitRate: int = int(ffmpeg.probe(filepath)["streams"][0]['bit_rate'])
 
     # print(f"sample_rate = {sample_rate}")
     # print(f"bits_per_sample = {bits_per_sample}")
     # print(f"codec_long_name = {codec_long_name}")
     # print(f"bit_rate = {bit_rate}")
 
-    return dict(sample_rate=sample_rate,
-                bits_per_sample=bits_per_sample,
-                codec_long_name=codec_long_name,
-                bit_rate=bit_rate
+    return dict(sampleRate=sampleRate,
+                bitsPerSample=bitsPerSample,
+                codecLongName=codecLongName,
+                bitRate=bitRate
                 )
 
 
@@ -32,7 +32,3 @@ def containerInfoBitRate(filepath: str) -> int:
         return int(float(ffmpeg.probe(filepath)["streams"][0]['bit_rate']) * 0.001)
     except:
         return 10000
-
-# containerInfoSampleRate("test/01 Bitch. Lasagna.flac")
-# containerInfoSampleRate("/Users/vallevert/Desktop/fake-lossless-detector/test/son_pure_440_22050_3_1.wav")
-# containerInfoBitRate("/Users/vallevert/Desktop/fake-lossless-detector/test/son_pure_440_22050_3_1.wav")
