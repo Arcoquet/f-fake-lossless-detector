@@ -3,13 +3,10 @@
 # UNIX-based file system only (macOS, Linux, ...)
 
 import sys
-import soundfile as sf
-import numpy as np
 from colorama import init as colorama_init
 from colorama import Fore
 from colorama import Style
 import glob
-from pprint import pprint
 
 from func.container import *
 from func.freq import *
@@ -23,9 +20,10 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
     if not quiet:
         print(f"{Fore.LIGHTBLUE_EX}{orgFilePath}{Style.RESET_ALL}")
 
-    # TODO optimize here
-    orgAudioData, _ = sf.read(orgFilePath)
+    orgAudioData, orgSampleRate = filePathToAudioArray(orgFilePath)
     redFlagNb: int = 0
+
+    # Detection methods ------------------------------------------------------------------------------------------------
 
     # Detects MP3 20.5kHz cut-off
     maxFrequency: float = findMaxFrequency(orgFilePath)
@@ -54,20 +52,21 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
 
     # Detects if another codec is near
     convert(orgFilePath)
-    if isASimilarCodec(orgFilePath):
+    if isASimilarCodec(orgFilePath, orgAudioData):
         if not quiet:
             print(f"{blueTab + Fore.YELLOW}Another lossy codec is near{Style.RESET_ALL}")
         redFlagNb += 1
 
     # Detects if information is greater than other codecs
-    if not isASimilarInformation(orgFilePath):
+    if not isASimilarInformation(orgFilePath, orgAudioData, orgSampleRate):
         if not quiet:
             print(f"{blueTab + Fore.YELLOW}No quality loss found in others converted codecs{Style.RESET_ALL}")
         redFlagNb += 1
 
-    # Clean up files
+    # Clean up files  --------------------------------------------------------------------------------------------------
     removeAllConvertedFile(orgFilePath)
 
+    # Print info  ------------------------------------------------------------------------------------------------------
     if not quiet:
         print(f"{blueTab}redFlagNb={Fore.YELLOW}{redFlagNb}{Style.RESET_ALL}")
 

@@ -1,10 +1,7 @@
 import ffmpeg
-from pprint import pprint
 
 
 def containerInfo(filepath: str) -> dict:
-    # pprint(ffmpeg.probe(filepath)["streams"][0])
-
     sampleRate: float = float(ffmpeg.probe(filepath)["streams"][0]['sample_rate'])
     bitsPerSample: int = int(ffmpeg.probe(filepath)["streams"][0]['bits_per_sample'])
     codecLongName: str = str(ffmpeg.probe(filepath)["streams"][0]['codec_long_name'])

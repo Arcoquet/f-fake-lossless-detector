@@ -6,7 +6,7 @@ from scipy.spatial.distance import cosine
 from scipy.signal import stft
 
 
-def signalDifferencePourcentage(filePathOrg: str, filePathConverted: str) -> float:
+def signalDifferencePourcentage(orgAudioData: list[float], convertedAudioData: list[float]) -> float:
     """Takes two filepath (relative or absolute), reads both, put it into 2 arrays (sf.read())
     Then calculates the pourcentage of difference between two arrays.
     :return float: pourcentage of difference between two arrays"""
@@ -48,7 +48,8 @@ def soundEntropy(filePath: str,
     Compute mean spectral entropy (bits by default) of an audio file.
 
     Parameters:
-      filePath: path to audio file
+      audioData: audio data list float
+      sampleRate: audio sample rate
       nFft: FFT size (frame length)
       hop: hop length (nFft - noverlap)
       window: window type for STFT
@@ -58,10 +59,13 @@ def soundEntropy(filePath: str,
     Returns:
       mean spectral entropy across frames
     """
-    x, sr = sf.read(filePath)
-    if x.ndim > 1:
-        x = x.mean(axis=1)
-    f, t, Z = stft(x, fs=sr, window=window, nperseg=nFft, noverlap=nFft - hop, padded=False, boundary=None)
+    audioData = np.array(audioData)
+    if audioData.ndim > 1:
+        audioData = audioData.mean(axis=1)
+    f, t, Z = stft(audioData,
+                   fs=sampleRate, window=window,
+                   nperseg=nFft, noverlap=nFft - hop, padded=False,
+                   boundary=None)
     S = np.abs(Z)  # magnitude spectrogram (freq bins x frames)
 
     # sum per frame
@@ -80,32 +84,33 @@ def soundEntropy(filePath: str,
     return float(np.mean(HFrames))
 
 
-# print(soundEntropy(
-#     "/Volumes/ExtSSD/Users/Vallevert/Desktop/fake-lossless-detector/test/03 Barbie Girl.flac") / soundEntropy(
-#     "/Volumes/ExtSSD/Users/Vallevert/Desktop/fake-lossless-detector/test/03 Barbie Girl.mp3"))
-
-
-def isASimilarCodec(filePathOrg: str) -> bool:
-    # TODO Armand if extension in [ac3,aac,wma], SF can't read it, use another lib
-    listPath = filePathOrg.split("/")
+def isASimilarCodec(orgFilePath: str, orgAudioData: list[float]) -> bool:
+    listPath = orgFilePath.split("/")
     getFname = str("".join(listPath[-1]))[::-1].split(".", 1)[1][::-1]
 
     for ext, codec in lossyFormat.items():
         outputPath = os.path.join("processing", f"{getFname}.{ext}")
         if (signalDifferencePourcentage(filePathOrg, outputPath) > 0.9998):  # TODO Constant to find
+        covertedPath = os.path.join("processing", f"{getFname}.{ext}")
+        convertedAudioData, _ = filePathToAudioArray(covertedPath)
+
+        if signalDifferencePourcentage(orgAudioData, convertedAudioData) > 0.985:  # TODO Armand find this constant.
             return True
     return False
 
 
-def isASimilarInformation(filePathOrg: str) -> bool:
+def isASimilarInformation(orgFilePath: str, orgAudioData: list[float], orgSampleRate: int) -> bool:
     # information = entropy
-    listPath = filePathOrg.split("/")
+    listPath = orgFilePath.split("/")
     getFname = str("".join(listPath[-1]))[::-1].split(".", 1)[1][::-1]
 
     for ext, codec in lossyFormat.items():
-        outputPath = os.path.join("processing", f"{getFname}.{ext}")
+        covertedPath = os.path.join("processing", f"{getFname}.{ext}")
+        convertedAudioData, convertedSampleRate = filePathToAudioArray(covertedPath)
 
-        if (not (soundEntropy(filePathOrg) > soundEntropy(outputPath) * 1.015)):  # TODO flac2falc=1, flac2mp3=1.015
+        if not (soundEntropy(orgAudioData, orgSampleRate) >
+                soundEntropy(convertedAudioData, convertedSampleRate)
+                * 1.015):  # TODO flac2flac=1, flac2mp3=1.015
             return False
 
     return True

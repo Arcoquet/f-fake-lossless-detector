@@ -31,3 +31,17 @@ For a folder (recursive):
 ```bash
 python3 main.py -d /path/to/musicDir
 ```
+
+# Limitations
+
+This project contains some limitations:
+
+- only `flac`, `m4a` and `wav` are available as input file format
+- only `mp3`, `ac3`, `opus`, `wma` and `aac` are available in audio codec conversion comparaison
+- Why ? Other files formats are rare nowadays, and I don't care about them
+- No way to pass an argument `-q --quiet` to display or remove red flag details
+- no Windows, but who care ?
+
+# Credit
+
+Developed by Vallevert
