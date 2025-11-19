@@ -10,6 +10,8 @@ from colorama import Fore
 from colorama import Style
 from pprint import pprint
 
+from sympy.strategies.core import switch
+
 from func.container import *
 from func.freq import *
 from func.convert import *
@@ -72,12 +74,26 @@ def fileAnalysis(orgFilePath: str) -> float:
 
 
 # TODO
-# Usage: python3 main.py /path/to/music.flac
-# Usage: python3 main.py -d /path/to/musicDir --> will call recursively
 # compiled version ?
 # .app version ?
 
-if len(sys.argv) < 2:
-    print("Usage: python3 main.py /path/to/music.flac")
+# case one file
+# if len(sys.argv) < 2:
+
+# orgFilePath = sys.argv[1]
+
+
+arg: list[str] = sys.argv[1:]
+
+# One file
+if len(arg) == 1:
+    fileAnalysis(arg[0])
+
+if len(arg) == 2:
+    # TODO
+    pass
+
+if len(arg) > 2 or len(arg) < 1:
+    print(f"{Fore.RED}Usage: python3 main.py /path/to/music.flac\n"
+          f"Usage: python3 main.py -d /path/to/musicDir{Style.RESET_ALL}")
     sys.exit(1)
-orgFilePath = sys.argv[1]
