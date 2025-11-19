@@ -2,7 +2,6 @@ from func.convert import *
 from scipy.stats import entropy
 import soundfile as sf
 import numpy as np
-import soundfile as sf
 from scipy.signal import stft
 
 
