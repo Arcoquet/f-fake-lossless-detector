@@ -76,23 +76,22 @@ def fileAnalysis(orgFilePath: str) -> float:
 
 arg: list[str] = sys.argv[1:]
 
+if len(arg) > 2 or len(arg) < 1:
+    print(f"{Fore.RED}Usage: python3 main.py /path/to/music.flac\n"
+          f"Usage: python3 main.py -d /path/to/musicDir{Style.RESET_ALL}")
+    sys.exit(1)
+
 # One file
 if len(arg) == 1:
     fileAnalysis(arg[0])
 
 # Folder: multi files
 if len(arg) == 2:
-    # TODO
     root: str = arg[1]
+    filesPath: list[str] = []
+    filesPath += glob.glob(root + '/**/*.m4a', recursive=True)
+    filesPath += glob.glob(root + '/**/*.flac', recursive=True)
+    filesPath += glob.glob(root + '/**/*.wav', recursive=True)
 
-    files: list[str] = []
-
-    files += glob.glob(root + '/**/*.mp3', recursive=True)
-    files += glob.glob(root + '/**/*.flac', recursive=True)
-    print(files)
-    print(len(files))
-
-if len(arg) > 2 or len(arg) < 1:
-    print(f"{Fore.RED}Usage: python3 main.py /path/to/music.flac\n"
-          f"Usage: python3 main.py -d /path/to/musicDir{Style.RESET_ALL}")
-    sys.exit(1)
+    for filePath in filesPath:
+        fileAnalysis(filePath)
