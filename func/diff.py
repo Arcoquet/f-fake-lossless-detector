@@ -85,7 +85,7 @@ def isASimilarCodec(orgFilePath: str, orgAudioData: list[float]) -> bool:
         covertedPath = os.path.join("processing", f"{getFname}.{ext}")
         convertedAudioData, _ = filePathToAudioArray(covertedPath)
 
-        if signalDifferencePourcentage(orgAudioData, convertedAudioData) < 0.017:
+        if signalDifferencePourcentage(orgAudioData, convertedAudioData) < 0.017:  # TODO verif
             return True
     return False
 
@@ -101,7 +101,7 @@ def isASimilarInformation(orgFilePath: str, orgAudioData: list[float], orgSample
 
         if not (soundEntropy(orgAudioData, orgSampleRate) >
                 soundEntropy(convertedAudioData, convertedSampleRate)
-                * 1.015):  # TODO flac2flac=1, flac2mp3=1.015
+                * 1.015):  # TODO verif
             return False
 
     return True
