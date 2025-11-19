@@ -12,9 +12,8 @@ def signalDifferencePourcentage(orgAudioData: list[float], convertedAudioData: l
     :return float: pourcentage of difference between two arrays"""
 
     # TODO /Doc/diff().jpeg
-
-    data1, sr1 = sf.read(filePathOrg)
-    data2, sr2 = sf.read(filePathConverted)
+    data1, sr1 = sf.read(orgAudioData)
+    data2, sr2 = sf.read(convertedAudioData)
 
     if sr1 != sr2:
         raise ValueError("Sample rates differ")
@@ -89,11 +88,9 @@ def isASimilarCodec(orgFilePath: str, orgAudioData: list[float]) -> bool:
     getFname = str("".join(listPath[-1]))[::-1].split(".", 1)[1][::-1]
 
     for ext, codec in lossyFormat.items():
-        outputPath = os.path.join("processing", f"{getFname}.{ext}")
-        if (signalDifferencePourcentage(filePathOrg, outputPath) > 0.9998):  # TODO Constant to find
         covertedPath = os.path.join("processing", f"{getFname}.{ext}")
         convertedAudioData, _ = filePathToAudioArray(covertedPath)
-
+    
         if signalDifferencePourcentage(orgAudioData, convertedAudioData) > 0.985:  # TODO Armand find this constant.
             return True
     return False
