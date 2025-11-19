@@ -1,6 +1,7 @@
 import os
 import shutil
 import ffmpeg
+import soundfile as sf
 
 losslessFormat: list[str] = ["flac", "m4a", "wav"]
 
@@ -41,3 +42,9 @@ def convert(filePath: str) -> None:
 def removeAllConvertedFile(filePath: str) -> None:
     shutil.rmtree("processing")
     os.mkdir("processing")
+
+
+def file2array(filePath: str) -> list[float]:
+    # TODO if format not supported by SF, use another lib
+    audioData, _ = sf.read(filePath)
+    return audioData
