@@ -89,6 +89,7 @@ arg: list[str] = sys.argv[1:]
 if len(arg) == 1:
     fileAnalysis(arg[0])
 
+# Folder: multi files
 if len(arg) == 2:
     # TODO
     pass
