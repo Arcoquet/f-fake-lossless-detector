@@ -2,6 +2,8 @@
 
 ## First install libraries
 
+### <b>Python 3.12 only.</b>
+
 ### macOS
 
 ```bash
