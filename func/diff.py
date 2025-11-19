@@ -13,6 +13,9 @@ def signalDifferencePourcentage(orgAudioData: list[float], convertedAudioData: l
 
     # TODO /Doc/diff().jpeg
 
+    orgAudioData = np.array(orgAudioData)
+    convertedAudioData = np.array(convertedAudioData)
+
     # Mono conversion
     if orgAudioData.ndim > 1:
         orgAudioData = np.mean(orgAudioData, axis=1)
