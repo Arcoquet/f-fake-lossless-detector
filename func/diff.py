@@ -100,8 +100,8 @@ def isASimilarInformation(orgFilePath: str, orgAudioData: list[float], orgSample
         convertedPath = os.path.join("processing", f"{getFname}.{ext}")
         convertedAudioData, convertedSampleRate = filePathToAudioArray(convertedPath)
 
-        print("DEBUG",
-              abs(soundEntropy(orgAudioData, orgSampleRate) - soundEntropy(convertedAudioData, convertedSampleRate)))
+        print(
+            f"DEBUG abs soundEntropy {ext} {abs(soundEntropy(orgAudioData, orgSampleRate) - soundEntropy(convertedAudioData, convertedSampleRate))}")
         if (abs(soundEntropy(orgAudioData, orgSampleRate) - soundEntropy(convertedAudioData, convertedSampleRate))
                 > lossyFormatStats[ext][1]):  # TODO
             return False
