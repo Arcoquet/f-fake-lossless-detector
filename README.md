@@ -41,7 +41,3 @@ This project contains some limitations:
 - Why ? Other files formats are rare nowadays, and I don't care about them
 - No way to pass an argument `-q --quiet` to display or remove red flag details
 - no Windows, but who care ?
-
-# Credit
-
-Developed by Vallevert and Armand C.
