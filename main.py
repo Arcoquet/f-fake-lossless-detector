@@ -13,7 +13,7 @@ colorama_init()
 blueTab: str = f"{Fore.LIGHTBLUE_EX}|\t{Style.RESET_ALL}"
 
 
-def fileAnalysis(orgFilePath: str, quiet: bool = True, enableExperimentalDetection: bool = False) -> int:
+def fileAnalysis(orgFilePath: str, quiet: bool = True, experimentalDetection: bool = False) -> int:
     if not quiet:
         print(f"{Fore.LIGHTBLUE_EX}{orgFilePath}{Style.RESET_ALL}")
 
@@ -47,7 +47,7 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True, enableExperimentalDetecti
             print(f"{blueTab + Fore.YELLOW}Some values are greater than 0 dB{Style.RESET_ALL}")
         redFlagNb += 1
 
-    if enableExperimentalDetection:
+    if experimentalDetection:
         # Detects if another codec is near
         convert(orgFilePath)
         if isASimilarCodec(orgFilePath, orgAudioData):
@@ -68,10 +68,10 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True, enableExperimentalDetecti
     if not quiet:
         print(f"{blueTab}redFlagNb={Fore.YELLOW}{redFlagNb}{Style.RESET_ALL}")
 
-    if redFlagNb > 2:
+    if redFlagNb > 0:
         print(
             f"{Fore.RED}⚠️ \033[4m{orgFilePath}{Style.RESET_ALL + Fore.RED} is suspect "
-            f"({redFlagNb} reds flags) ⚠️{Style.RESET_ALL}")
+            f"({redFlagNb}🚩) ⚠️{Style.RESET_ALL}")
 
     return redFlagNb
 
@@ -101,4 +101,4 @@ if len(arg) == 2:
     for filePath in filesPath:
         count += 1
         print(f"Progression: {count:4}/{len(filesPath)}")
-        fileAnalysis(filePath, quiet=False, enableExperimentalDetection=False)
+        fileAnalysis(filePath, quiet=True, experimentalDetection=False)
