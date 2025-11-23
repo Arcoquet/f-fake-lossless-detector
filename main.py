@@ -13,7 +13,7 @@ colorama_init()
 blueTab: str = f"{Fore.LIGHTBLUE_EX}|\t{Style.RESET_ALL}"
 
 
-def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
+def fileAnalysis(orgFilePath: str, quiet: bool = True, enableExperimentalDetection: bool = False) -> int:
     if not quiet:
         print(f"{Fore.LIGHTBLUE_EX}{orgFilePath}{Style.RESET_ALL}")
 
@@ -47,20 +47,19 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
             print(f"{blueTab + Fore.YELLOW}Some values are greater than 0 dB{Style.RESET_ALL}")
         redFlagNb += 1
 
-    # Detects if another codec is near
-    convert(orgFilePath)
-    # TODO verif
-    if isASimilarCodec(orgFilePath, orgAudioData):
-        if not quiet:
-            print(f"{blueTab + Fore.YELLOW}++++ Another lossy codec is near{Style.RESET_ALL}")
-        redFlagNb += 1
+    if enableExperimentalDetection:
+        # Detects if another codec is near
+        convert(orgFilePath)
+        if isASimilarCodec(orgFilePath, orgAudioData):
+            if not quiet:
+                print(f"{blueTab + Fore.YELLOW}[EXPERIMENTAL] Another lossy codec is near{Style.RESET_ALL}")
+            redFlagNb += 1
 
-    # Detects if information is greater than other codecs
-    # TODO verif
-    # if not isASimilarInformation(orgFilePath, orgAudioData, orgSampleRate):
-    #     if not quiet:
-    #         print(f"{blueTab + Fore.YELLOW}No quality loss found in lossy codec{Style.RESET_ALL}")
-    #     redFlagNb += 1
+        # Detects if information is greater than other codecs
+        if isASimilarInformation(orgFilePath, orgAudioData, orgSampleRate):
+            if not quiet:
+                print(f"{blueTab + Fore.YELLOW}[EXPERIMENTAL] No quality loss found in lossy codec{Style.RESET_ALL}")
+            redFlagNb += 1
 
     # Clean up files  --------------------------------------------------------------------------------------------------
     removeAllConvertedFile(orgFilePath)
@@ -69,7 +68,7 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
     if not quiet:
         print(f"{blueTab}redFlagNb={Fore.YELLOW}{redFlagNb}{Style.RESET_ALL}")
 
-    if redFlagNb >= 2:
+    if redFlagNb > 2:
         print(
             f"{Fore.RED}⚠️ \033[4m{orgFilePath}{Style.RESET_ALL + Fore.RED} is suspect "
             f"({redFlagNb} reds flags) ⚠️{Style.RESET_ALL}")
@@ -102,6 +101,4 @@ if len(arg) == 2:
     for filePath in filesPath:
         count += 1
         print(f"Progression: {count:4}/{len(filesPath)}")
-        fileAnalysis(filePath, quiet=False)
-
-# TODO: redFlagNb should be 6 for MP3, and 0 for FLAC
+        fileAnalysis(filePath, quiet=False, enableExperimentalDetection=False)

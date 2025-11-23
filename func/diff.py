@@ -87,17 +87,17 @@ def isASimilarCodec(orgFilePath: str, orgAudioData: list[float]) -> bool:
 
         diff: float = signalDifferencePourcentage(orgAudioData, convertedAudioData)
 
-        print(f"DEBUG {ext}")
-        print("DEBUG find", diff)
-        print("DEBUG threshold", lossyFormatStats[ext][0])
+        # print(f"DEBUG {ext}")
+        # print("DEBUG find", diff)
+        # print("DEBUG threshold", lossyFormatStats[ext][0])
 
         mean: float = lossyFormatStats[ext][0][0]
         std: float = lossyFormatStats[ext][0][1] * 0.1
 
-        if not (mean - std < diff and mean + std < diff):  # TODO
-            print(f"probably {ext} file\n")
-            # return True
-            pass
+        if not (mean - std < diff and diff < mean + std):
+            # print(f"probably {ext} file\n")
+            return True
+
     return False
 
 
@@ -110,10 +110,17 @@ def isASimilarInformation(orgFilePath: str, orgAudioData: list[float], orgSample
         convertedPath = os.path.join("processing", f"{getFname}.{ext}")
         convertedAudioData, convertedSampleRate = filePathToAudioArray(convertedPath)
 
-        print(
-            f"DEBUG abs soundEntropy {ext} {abs(soundEntropy(orgAudioData, orgSampleRate) - soundEntropy(convertedAudioData, convertedSampleRate))}")
-        if (abs(soundEntropy(orgAudioData, orgSampleRate) - soundEntropy(convertedAudioData, convertedSampleRate))
-                > lossyFormatStats[ext][1]):  # TODO
-            return False
+        diff: float = abs(
+            soundEntropy(orgAudioData, orgSampleRate) - soundEntropy(convertedAudioData, convertedSampleRate))
 
-        return True
+        mean: float = lossyFormatStats[ext][1][0]
+        std: float = lossyFormatStats[ext][0][1] * 0.1
+
+        # print(f"DEBUG {ext}")
+        # print("DEBUG find", diff)
+        # print("DEBUG threshold", mean, std)
+        if not (mean - std < diff and diff < mean + std):
+            # print(f"probably {ext} file\n")
+            return True
+
+    return False
