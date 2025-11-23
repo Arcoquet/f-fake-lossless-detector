@@ -40,7 +40,7 @@ def generateStats(root: str) -> None:
             convertedPath = os.path.join("processing", f"{getFname}.{ext}")
             convertedAudioData, convertedSampleRate = filePathToAudioArray(convertedPath)
 
-            # stats_diff[ext].append(signalDifferencePourcentage(orgAudioData, convertedAudioData))
+            stats_diff[ext].append(signalDifferencePourcentage(orgAudioData, convertedAudioData))
             stats_entropy[ext].append(
                 soundEntropy(orgAudioData, orgSampleRate) - soundEntropy(convertedAudioData, convertedSampleRate))
 
