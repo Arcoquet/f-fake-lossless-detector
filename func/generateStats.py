@@ -67,4 +67,4 @@ def generateStats(root: str) -> None:
         print(f"\tmin={stats_entropy[ext].min()}")
         print(f"\tmax={stats_entropy[ext].max()}")
 
-# generateStats("/Volumes/ExtSSD/Users/Vallevert/Desktop/fake-lossless-detector/test/Weeknd_flac")
+# generateStats("test/Weeknd_flac")
