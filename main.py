@@ -50,17 +50,17 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
     # Detects if another codec is near
     convert(orgFilePath)
     # TODO verif
-    # if isASimilarCodec(orgFilePath, orgAudioData):
-    #     if not quiet:
-    #         print(f"{blueTab + Fore.YELLOW}++++ Another lossy codec is near{Style.RESET_ALL}")
-    #     redFlagNb += 1
+    if isASimilarCodec(orgFilePath, orgAudioData):
+        if not quiet:
+            print(f"{blueTab + Fore.YELLOW}++++ Another lossy codec is near{Style.RESET_ALL}")
+        redFlagNb += 1
 
     # Detects if information is greater than other codecs
     # TODO verif
-    if not isASimilarInformation(orgFilePath, orgAudioData, orgSampleRate):
-        if not quiet:
-            print(f"{blueTab + Fore.YELLOW}No quality loss found in lossy codec{Style.RESET_ALL}")
-        redFlagNb += 1
+    # if not isASimilarInformation(orgFilePath, orgAudioData, orgSampleRate):
+    #     if not quiet:
+    #         print(f"{blueTab + Fore.YELLOW}No quality loss found in lossy codec{Style.RESET_ALL}")
+    #     redFlagNb += 1
 
     # Clean up files  --------------------------------------------------------------------------------------------------
     removeAllConvertedFile(orgFilePath)

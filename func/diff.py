@@ -85,9 +85,19 @@ def isASimilarCodec(orgFilePath: str, orgAudioData: list[float]) -> bool:
         convertedPath = os.path.join("processing", f"{getFname}.{ext}")
         convertedAudioData, _ = filePathToAudioArray(convertedPath)
 
-        print("DEBUG", signalDifferencePourcentage(orgAudioData, convertedAudioData))
-        if signalDifferencePourcentage(orgAudioData, convertedAudioData) > lossyFormatStats[ext][0]:  # TODO
-            return True
+        diff: float = signalDifferencePourcentage(orgAudioData, convertedAudioData)
+
+        print(f"DEBUG {ext}")
+        print("DEBUG find", diff)
+        print("DEBUG threshold", lossyFormatStats[ext][0])
+
+        mean: float = lossyFormatStats[ext][0][0]
+        std: float = lossyFormatStats[ext][0][1] * 0.1
+
+        if not (mean - std < diff and mean + std < diff):  # TODO
+            print(f"probably {ext} file\n")
+            # return True
+            pass
     return False
 
 
