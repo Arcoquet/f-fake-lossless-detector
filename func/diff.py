@@ -1,6 +1,7 @@
 from func.convert import *
 import numpy as np
 from scipy.signal import stft
+from func.generateStats import *
 
 
 def signalDifferencePourcentage(orgAudioData: list[float], convertedAudioData: list[float]) -> float:
@@ -82,12 +83,11 @@ def isASimilarCodec(orgFilePath: str, orgAudioData: list[float]) -> bool:
     getFname = str("".join(listPath[-1]))[::-1].split(".", 1)[1][::-1]
 
     for ext, codec in lossyFormat.items():
-        covertedPath = os.path.join("processing", f"{getFname}.{ext}")
-        convertedAudioData, _ = filePathToAudioArray(covertedPath)
+        convertedPath = os.path.join("processing", f"{getFname}.{ext}")
+        convertedAudioData, _ = filePathToAudioArray(convertedPath)
 
         print(signalDifferencePourcentage(orgAudioData, convertedAudioData))
-        if signalDifferencePourcentage(orgAudioData, convertedAudioData) > 0.2513323:
-            # diff between flac and mp3:
+        if signalDifferencePourcentage(orgAudioData, convertedAudioData) > lossyFormatStats[ext][0]:  # TODO
             return True
     return False
 
@@ -98,15 +98,13 @@ def isASimilarInformation(orgFilePath: str, orgAudioData: list[float], orgSample
     getFname = str("".join(listPath[-1]))[::-1].split(".", 1)[1][::-1]
 
     for ext, codec in lossyFormat.items():
-        covertedPath = os.path.join("processing", f"{getFname}.{ext}")
-        convertedAudioData, convertedSampleRate = filePathToAudioArray(covertedPath)
+        convertedPath = os.path.join("processing", f"{getFname}.{ext}")
+        convertedAudioData, convertedSampleRate = filePathToAudioArray(convertedPath)
 
         print(soundEntropy(orgAudioData, orgSampleRate) - soundEntropy(convertedAudioData, convertedSampleRate))
 
         if not (soundEntropy(orgAudioData, orgSampleRate) -
-                soundEntropy(convertedAudioData, convertedSampleRate) > 1):  # TODO verif
-            # diff between flac and mp3: mean=0.01683380437552589, std=0.008066497593942346
-            pass
-            # return False
+                soundEntropy(convertedAudioData, convertedSampleRate) > lossyFormatStats[ext][1]):  # TODO
+            return False
 
     return True
