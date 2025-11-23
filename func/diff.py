@@ -1,7 +1,6 @@
 from func.convert import *
 import numpy as np
 from scipy.signal import stft
-from func.generateStats import *
 
 
 def signalDifferencePourcentage(orgAudioData: list[float], convertedAudioData: list[float]) -> float:

@@ -14,6 +14,14 @@ lossyFormat: dict[str, str] = {
     "aac": "aac"
 }
 
+lossyFormatStats: dict[str, list[float]] = {
+    "ac3": [0.001, 0.1],
+    "mp3": [0.001, 0.1],
+    "opus": [0.001, 0.1],
+    "wma": [0.001, 0.1],
+    "aac": [0.001, 0.1],
+}
+
 
 def convert(filePath: str) -> None:
     try:
