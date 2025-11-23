@@ -1,7 +1,4 @@
-import sys
 import glob
-from func.container import *
-from func.freq import *
 from func.diff import *
 from func.convert import *
 
@@ -45,21 +42,27 @@ for filePath in filesPath:
         convertedPath = os.path.join("processing", f"{getFname}.{ext}")
         convertedAudioData, convertedSampleRate = filePathToAudioArray(convertedPath)
 
-        print(f"{ext}: signalDifferencePourcentage={signalDifferencePourcentage(orgAudioData, convertedAudioData)}")
+        # print(f"{ext}: signalDifferencePourcentage={signalDifferencePourcentage(orgAudioData, convertedAudioData)}")
+        stats_diff[ext].append(signalDifferencePourcentage(orgAudioData, convertedAudioData))
+        # print(soundEntropy(orgAudioData, orgSampleRate) - soundEntropy(convertedAudioData, convertedSampleRate))
+        stats_entropy[ext].append(
+            soundEntropy(orgAudioData, orgSampleRate) - soundEntropy(convertedAudioData, convertedSampleRate))
 
-    # lst_signalDifferencePourcentage.append(signalDifferencePourcentage(orgAudioData, convAudioData))
-    # lst_entropy.append(soundEntropy(orgAudioData, sr1) - soundEntropy(convAudioData, sr2))
+for ext, codec in lossyFormat.items():
+    stats_diff[ext] = np.array(stats_diff[ext])
+    stats_entropy[ext] = np.array(stats_entropy[ext])
 
-# lst_signalDifferencePourcentage = np.array(lst_signalDifferencePourcentage)
-# print(lst_signalDifferencePourcentage.mean(axis=0))  #  0.002513323
-# print(lst_signalDifferencePourcentage.std(axis=0))  #   0.0025298814
-# print(lst_signalDifferencePourcentage.min())  #         0.00067599147
-# print(lst_signalDifferencePourcentage.max())  #         0.012584871
-# print(np.median(lst_signalDifferencePourcentage))  #    0.0018073984
+    print(f"signalDifferencePourcentage: {ext}")
+    print(f"mean={stats_diff[ext].mean()}")
+    print(f"std={stats_diff[ext].std()}")
+    print(f"min={stats_diff[ext].min()}")
+    print(f"max={stats_diff[ext].max()}")
+    print(f"median={np.median(stats_diff[ext])}")
 
-# lst_entropy = np.array(lst_entropy)
-# print(lst_entropy.mean(axis=0))  #  0.01683380437552589
-# print(lst_entropy.std(axis=0))  #   0.008066497593942346
-# print(lst_entropy.min())  #         0.00038740892301536434
-# print(lst_entropy.max())  #         0.04890216027699257
-# print(np.median(lst_entropy))  #    0.01564887940118087
+for ext, codec in lossyFormat.items():
+    print(f"soundEntropy: {ext}")
+    print(f"mean={stats_entropy[ext].mean()}")
+    print(f"std={stats_entropy[ext].std()}")
+    print(f"min={stats_entropy[ext].min()}")
+    print(f"max={stats_entropy[ext].max()}")
+    print(f"median={np.median(stats_entropy[ext])}")
