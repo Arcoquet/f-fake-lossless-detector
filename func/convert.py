@@ -43,7 +43,10 @@ def convert(filePath: str) -> None:
 
 
 def removeAllConvertedFile(filePath: str) -> None:
-    shutil.rmtree("processing")
+    try:
+        shutil.rmtree("processing")
+    except:
+        pass
     os.mkdir("processing")
 
 
