@@ -3,8 +3,8 @@ from func.diff import *
 from func.convert import *
 
 
-def generateStats() -> None:
-    root: str = "/Volumes/ExtSSD/Users/Vallevert/Desktop/fake-lossless-detector/test/Weeknd_flac"
+def generateStats(root: str) -> None:
+    """Time-consuming. Do not use. For development purposes only."""
     filesPath: list[str] = []
     filesPath += glob.glob(root + '/**/*.m4a', recursive=True)
     filesPath += glob.glob(root + '/**/*.flac', recursive=True)
@@ -58,7 +58,7 @@ def generateStats() -> None:
 
     for ext, codec in lossyFormat.items():
         stats_entropy[ext] = np.array(stats_entropy[ext])
-        stats_entropy[ext][1] = abs(stats_entropy[ext][1])
+        stats_entropy[ext] = abs(stats_entropy[ext])
 
         print(f"soundEntropy: {ext}")
         print(f"\tmean={stats_entropy[ext].mean()}")
@@ -68,4 +68,4 @@ def generateStats() -> None:
         print(f"\tmax={stats_entropy[ext].max()}")
 
 
-generateStats()
+generateStats("/Volumes/ExtSSD/Users/Vallevert/Desktop/fake-lossless-detector/test/Weeknd_flac")
