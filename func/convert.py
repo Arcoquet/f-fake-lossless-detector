@@ -28,7 +28,7 @@ def convert(filePath: str) -> None:
         outputPath = os.path.join("processing", f"{getFname}.{ext}")
         (
             ffmpeg.input(filePath)
-            .output(outputPath, acodec=codec, vn=None)
+            .output(outputPath, acodec=codec, vn=None, audio_bitrate="320k", )
             .run(capture_stdout=True, capture_stderr=True, overwrite_output=True)
         )
 

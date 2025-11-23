@@ -48,12 +48,12 @@ def fileAnalysis(orgFilePath: str, quiet: bool = True) -> int:
         redFlagNb += 1
 
     # Detects if another codec is near
-    # TODO verif
     convert(orgFilePath)
-    if isASimilarCodec(orgFilePath, orgAudioData):
-        if not quiet:
-            print(f"{blueTab + Fore.YELLOW}Another lossy codec is near{Style.RESET_ALL}")
-        redFlagNb += 1
+    # TODO verif
+    # if isASimilarCodec(orgFilePath, orgAudioData):
+    #     if not quiet:
+    #         print(f"{blueTab + Fore.YELLOW}++++ Another lossy codec is near{Style.RESET_ALL}")
+    #     redFlagNb += 1
 
     # Detects if information is greater than other codecs
     # TODO verif
@@ -96,10 +96,34 @@ if len(arg) == 2:
     filesPath += glob.glob(root + '/**/*.flac', recursive=True)
     filesPath += glob.glob(root + '/**/*.wav', recursive=True)
 
+    lst_signalDifferencePourcentage: list[float] = []
+    lst_entropy: list[float] = []
     compt: int = 0
     for filePath in filesPath:
         compt += 1
-        print(f"Progression: {compt}/{len(filesPath)}")
+        print(f"Progression: {compt:4}/{len(filesPath)}")
         fileAnalysis(filePath, quiet=False)
+
+        # filesPathConv = filePath.replace("flac", "mp3")
+        # orgAudioData, sr1 = filePathToAudioArray(filePath)
+        # convAudioData, sr2 = filePathToAudioArray(filesPathConv)
+        #
+        # lst_signalDifferencePourcentage.append(signalDifferencePourcentage(orgAudioData, convAudioData))
+        #
+        # lst_entropy.append(soundEntropy(orgAudioData, sr1) - soundEntropy(convAudioData, sr2))
+
+    # lst_signalDifferencePourcentage = np.array(lst_signalDifferencePourcentage)
+    # print(lst_signalDifferencePourcentage.mean(axis=0))  #  0.002513323
+    # print(lst_signalDifferencePourcentage.std(axis=0))  #   0.0025298814
+    # print(lst_signalDifferencePourcentage.min())  #         0.00067599147
+    # print(lst_signalDifferencePourcentage.max())  #         0.012584871
+    # print(np.median(lst_signalDifferencePourcentage))  #    0.0018073984
+
+    # lst_entropy = np.array(lst_entropy)
+    # print(lst_entropy.mean(axis=0))  #  0.01683380437552589
+    # print(lst_entropy.std(axis=0))  #   0.008066497593942346
+    # print(lst_entropy.min())  #         0.00038740892301536434
+    # print(lst_entropy.max())  #         0.04890216027699257
+    # print(np.median(lst_entropy))  #    0.01564887940118087
 
 # TODO: redFlagNb should be 6 for MP3, and 0 for FLAC
