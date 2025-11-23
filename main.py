@@ -98,10 +98,10 @@ if len(arg) == 2:
 
     lst_signalDifferencePourcentage: list[float] = []
     lst_entropy: list[float] = []
-    compt: int = 0
+    count: int = 0
     for filePath in filesPath:
-        compt += 1
-        print(f"Progression: {compt:4}/{len(filesPath)}")
+        count += 1
+        print(f"Progression: {count:4}/{len(filesPath)}")
         fileAnalysis(filePath, quiet=False)
 
 # TODO: redFlagNb should be 6 for MP3, and 0 for FLAC

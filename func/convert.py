@@ -14,6 +14,7 @@ lossyFormat: dict[str, str] = {
     "aac": "aac"
 }
 
+# TODO
 lossyFormatStats: dict[str, list[float]] = {
     "ac3": [0.1608075052499771, 0],
     "mp3": [0.0006759914685972035, 0.00038740892301536434],
