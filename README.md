@@ -38,12 +38,15 @@ This project contains some limitations:
 
 - only `flac`, `m4a` and `wav` are available as input file format
 - only `mp3`, `ac3`, `opus`, `wma` and `aac` are available in audio codec conversion comparaison
-- why ? Other files formats are rare nowadays, and I don't care about them
 - no way to pass an argument `-q --quiet` to display or remove red flag details
-- no Windows, but who care ?
+- no windows support
 
 # Futur work
 
 - compile it to run it as a native application
 - train an AI to detect lossy instead of `soundEntropy()` or `signalDifferencePourcentage()`. This is too random due to
   lossy algorithm complexity.
+
+# Authors
+- Armand Coquet
+- Vallvert
